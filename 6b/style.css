@@ -1,69 +1,106 @@
-/* ===============================
-   General Styling
-   =============================== */
-body {
-  margin: 0;
-  font-family: 'Patrick Hand', cursive;
-  background-color: #f2f7ff;
-  overflow-x: hidden;
-  color: #0b3d91;
+/* Reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+/* Page */
+body{
+  font-family:'Handlee', cursive;
+  background:#eaf4ff;   /* soft light blue */
+  color:#002f6c;         /* navy */
+  overflow-x:hidden;
+  scroll-behavior:smooth;
 }
 
-.parallax {
-  perspective: 1px;
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
+/* ===== Intro cover ===== */
+.intro{
+  height:100vh;
+  display:grid;
+  place-items:center;
+  background: radial-gradient(1200px 600px at 50% 20%, #ffffff 0%, #eef4ff 60%, #e3eeff 100%);
+  border-bottom: 2px solid #cfe1ff;
+}
+.intro-box{
+  text-align:center;
+  padding: 24px 28px;
+  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+.intro h1{
+  font-size: clamp(36px, 6vw, 64px);
+  margin-bottom: 6px;
+}
+.intro .sub{
+  font-size: clamp(16px, 2.2vw, 20px);
+  opacity:.85;
+}
+.down{
+  display:inline-block;
+  margin-top: 14px;
+  font-size: 26px;
+  color:#002f6c;
+  text-decoration:none;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.6);
+  border: 1px solid #cfe1ff;
+  transition: transform .2s ease, background .2s;
+}
+.down:hover{ transform: translateY(2px); background: rgba(255,255,255,.8); }
+
+/* ===== Scenes ===== */
+.scene{
+  position:relative;
+  height:100vh;
+  overflow:hidden;
 }
 
-/* ===============================
-   Scenes
-   =============================== */
-.scene {
-  position: relative;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform-style: preserve-3d;
-  overflow: hidden;
+/* Background image (parallax target) */
+.bg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:translateZ(0);
+  will-change:transform, opacity;
+  opacity:0;                     /* hidden until loaded */
+  transition:opacity .4s ease;
 }
+.bg.loaded{ opacity:.96; }
 
-.scene img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: translateZ(-1px) scale(2);
-  filter: brightness(0.95);
-}
-
-/* ===============================
-   Captions
-   =============================== */
-.caption {
-  position: relative;
-  z-index: 2;
-  font-size: 2rem;
-  color: #0b3d91;
-  text-shadow: 1px 1px 4px rgba(255,255,255,0.9);
-  max-width: 800px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.6);
-  padding: 12px 24px;
+/* Caption bar pinned to the bottom */
+.caption{
+  position:absolute;
+  left:50%;
+  bottom:24px;                   /* always at bottom of the picture */
+  transform: translateX(-50%) translateY(12px); /* start slightly below for fade */
+  z-index:2;
+  max-width: min(900px, 92%);
+  font-size: clamp(18px, 2.4vw, 28px);
+  color:#002f6c;
+  background: rgba(255,255,255,.78);
+  padding: 14px 22px;
   border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.15);
+  text-align:center;
+  opacity:0;
+  transition: opacity .6s ease-out, transform .6s ease-out;
+}
+.caption.fade-in{
+  opacity:1;
+  transform: translateX(-50%) translateY(0);
 }
 
-/* ===============================
-   Footer
-   =============================== */
-footer {
-  background-color: #dce6ff;
-  text-align: center;
-  padding: 20px;
-  color: #0b3d91;
-  font-size: 1rem;
-  border-top: 2px solid #b0c4ff;
+/* A subtle dark veil to increase readability */
+.scene::before{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.20) 0%, rgba(0,0,0,.08) 40%, rgba(0,0,0,0) 70%);
+  z-index:1;
+}
+
+/* Responsive tweaks */
+@media (max-width:768px){
+  .caption{ bottom:16px; }
 }
